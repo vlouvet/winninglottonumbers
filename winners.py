@@ -1,13 +1,14 @@
 import csv, random, math
 
 from collections import Counter
-
 	
 millnames = ['',' Thousand',' Million',' Billion',' Trillion']	
 winningPercent = 0
 winCount = 0
 gambleCount = 0
 winnings = 0.00
+
+#by default we want to print out our progress every 1 million attempts
 log_every_n = 1_000_000
 
 #uses randrange to generate a 5 index list with numbers ranging from 1 to 69
@@ -20,6 +21,7 @@ def generate_mm_numbers():
 		generated_nums.append(random.randrange(1, 71))
 	return generated_nums
 
+#uses randint to generate a number between 1 and 25	
 def generate_mm_special_num():
 	return random.randrange(1, 26)
 	
@@ -56,15 +58,20 @@ def millify(n):
 	
 winner_set = read_mm_numbers()
 
-#using 10 million iterations, check our chosen numbers against the randomly chosen winning numbers
 for gamble in range(0, 100_000_000):
 	random_set = generate_mm_numbers()
 	random_special_num = generate_mm_special_num()
+	#option 1, interactive user input used to choose Mega Million numbers
 	#chosen_nums = [int(x) for x in input("Enter five numbers between 1 and 69 separate each number by a space, then press enter:").split()]
 	#chosen_special_num = input("Enter a number between 1 and 25, then press enter:")
-	#chosen_nums = [int(random.randrange(1, 69)) for x in range(0, 4)]
-	chosen_nums = [2, 20, 11, 31, 17] #chosen because they appear on winning tickets more often
-	chosen_special_num = 6
+	
+	#option 2, randomly select Mega Million numbers 
+	chosen_nums = [int(random.randrange(1, 69)) for x in range(0, 5)]
+	chosen_special_num = int(random.randint(1, 26))
+	
+	#option 3, hardcode your chosen Mega Millions numbers as a list
+	#chosen_nums = [2, 20, 11, 31, 17] #chosen because they appear on winning tickets more often
+	
 	matchingNum = 0
 	matchingspecial = False
 	winnings -= 5.00
@@ -88,6 +95,7 @@ for gamble in range(0, 100_000_000):
 			winnings += 1_600_000_000.00
 			print("you won the jackpot!!!!")
 			print("\n\n")
+			break # quit while you're ahead...
 		winCount += 1
 	gambleCount += 1
 	if (gambleCount % log_every_n) == 0:
