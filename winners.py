@@ -56,8 +56,9 @@ def millify(n):
                         int(math.floor(0 if n == 0 else math.log10(abs(n))/3))))
 
     return '{:.0f}{}'.format(n / 10**(3 * millidx), millnames[millidx])	
-	
-winner_set = read_mm_numbers()
+
+#uncomment the following line to read the winning numbers from CSV	
+#winner_set = read_mm_numbers()
 
 running_list = list()
 running_special_list = list()
