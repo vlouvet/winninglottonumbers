@@ -8,7 +8,7 @@ the program has three basic operation modes:
  2. Randomly select Mega Million numbers.
  3. Use hard-coded list of Mega Million numbers.  (Enabled by default)
 
-*how to use*
+# how to use
 1. Open the winners.py file in a text editor and change the value in line 10 to the total number of money you want to spend on lotto tickets. (defaults to 2,000,000).
 
 2. run the program from the terminal with no arguements (python winners.py)
