@@ -7,7 +7,7 @@ millnames = ['',' Thousand',' Million',' Billion',' Trillion']
 winningPercent = 0
 winCount = 0
 gambleCount = 0
-winnings = 100_000_000
+winnings = 2_000_000
 
 #by default we want to print out our progress every 1 million attempts
 log_every_n = 1_000_000
@@ -26,21 +26,21 @@ def generate_mm_numbers():
 def generate_mm_special_num():
 	return random.randrange(1, 26)
 	
-#reads all winning numbers from a CSV file and adds them to a list	
-def read_mm_numbers():
-	with open("mm_numbers.csv", "r") as fin:
-		csvreader = csv.reader(fin)
-		winner_list = list()
-		for x in csvreader:
-			for num in x:
-				winner_list.append(int(num))
-		#uncomment the following two lines to find the 5 most common numbers in the winners list
-		#most_common = Counter(winner_list).most_common(5)
-		#print(most_common)
+# #reads all winning numbers from a CSV file and adds them to a list	
+# def read_mm_numbers():
+	# with open("mm_numbers.csv", "r") as fin:
+		# csvreader = csv.reader(fin)
+		# winner_list = list()
+		# for x in csvreader:
+			# for num in x:
+				# winner_list.append(int(num))
+		# #uncomment the following two lines to find the 5 most common numbers in the winners list
+		# #most_common = Counter(winner_list).most_common(5)
+		# #print(most_common)
 	
-		#reduces the list to a set (including unique values only) then converts back to a list
-		winner_list = list(set(winner_list))
-	return winner_list
+		# #reduces the list to a set (including unique values only) then converts back to a list
+		# winner_list = list(set(winner_list))
+	# return winner_list
 
 def print_gamble_stats(winCount, gambleCount, winnings):
 	winningPercent = (( winCount / gambleCount ) * 100.00 )
@@ -63,7 +63,8 @@ def millify(n):
 running_list = list()
 running_special_list = list()
 most_common_list = list()
-while winnings > 0:
+
+while winnings > 0.00:
 	random_set = generate_mm_numbers()
 	random_special_num = generate_mm_special_num()
 	matchingNum = 0
@@ -113,7 +114,8 @@ while winnings > 0:
 			print_gamble_stats(winCount, gambleCount, winnings)
 			exit()
 		winCount += 1
-		
+	#simple correction process. looks at the last 100,000 winning numbers, and changes chosen_nums to that list of numbers.
+	# also resets the chosen_special_num based on which number was most commonly found in the past 100,00 iterations
 	if len(running_list) > 100_000:
 		mc_list = Counter(running_list).most_common(5)
 		for item in mc_list:
