@@ -7,7 +7,7 @@ millnames = ['',' Thousand',' Million',' Billion',' Trillion']
 winningPercent = 0
 winCount = 0
 gambleCount = 0
-winnings = 0.00
+winnings = 100_000_000
 
 #by default we want to print out our progress every 1 million attempts
 log_every_n = 1_000_000
@@ -59,29 +59,41 @@ def millify(n):
 	
 winner_set = read_mm_numbers()
 
-for gamble in range(0, 100_000_000):
+running_list = list()
+running_special_list = list()
+most_common_list = list()
+while winnings > 0:
 	random_set = generate_mm_numbers()
 	random_special_num = generate_mm_special_num()
-	#option 1, interactive user input used to choose Mega Million numbers
-	#chosen_nums = [int(x) for x in input("Enter five numbers between 1 and 69 separate each number by a space, then press enter:").split()]
-	#chosen_special_num = input("Enter a number between 1 and 25, then press enter:")
-	
-	#option 2, randomly select Mega Million numbers 
-	chosen_nums = [int(random.randrange(1, 69)) for x in range(0, 5)]
-	chosen_special_num = int(random.randint(1, 26))
-	
-	#option 3, hardcode your chosen Mega Millions numbers as a list
-	#chosen_nums = [2, 20, 11, 31, 17] #chosen because they appear on winning tickets more often
-	
 	matchingNum = 0
 	matchingspecial = False
-	winnings -= 5.00
-	for choice in chosen_nums:
-		if choice in random_set:
+	winnings -= 2.00
+	gambleCount += 1
+	if gambleCount == 1:
+		#option 1, interactive user input used to choose Mega Million numbers
+		#chosen_nums = [int(x) for x in input("Enter five numbers between 1 and 69 separate each number by a space, then press enter:").split()]
+		#chosen_special_num = input("Enter a number between 1 and 25, then press enter:")
+		
+		#option 2, randomly select Mega Million numbers 
+		#chosen_nums = [int(random.randrange(1, 69)) for x in range(0, 5)]
+		#chosen_special_num = int(random.randint(1, 26))
+		
+		#option 3, hardcode your chosen Mega Millions numbers as a list
+		chosen_nums = [2, 20, 11, 31, 17] #chosen because they appear on winning tickets more often
+		chosen_special_num = 6
+
+	for choice in random_set:
+		running_list.append(choice)
+		if choice in chosen_nums:
 			matchingNum += 1
-	if chosen_special_num == random_special_num:
+		if chosen_special_num == random_special_num:
 			matchingspecial = True
-	if matchingNum > 3:# winnings of $500 or more count as a win!
+			running_special_list.append(random_special_num)
+		else:
+			matchingspecial = False
+	
+	# winnings of $500 or more count as a win
+	if matchingNum > 3:
 		if matchingNum == 4 and not matchingspecial:
 			winnings += 500.00
 		elif matchingNum == 4 and matchingspecial:
@@ -92,13 +104,24 @@ for gamble in range(0, 100_000_000):
 			winnings += 1_000_000.00
 			print("you won 1,000,000 dollars!")
 			print("\n\n")
-		elif matchingNum and matchingspecial:
+		elif matchingNum == 5 and matchingspecial:
 			winnings += 1_600_000_000.00
 			print("you won the jackpot!!!!")
+			print(random_set, random_special_num)
 			print("\n\n")
-			break # quit while you're ahead...
+			print_gamble_stats(winCount, gambleCount, winnings)
+			exit()
 		winCount += 1
-	gambleCount += 1
+		
+	if len(running_list) > 100_000:
+		mc_list = Counter(running_list).most_common(5)
+		for item in mc_list:
+			most_common_list.append(item[0])
+		chosen_nums = most_common_list
+		chosen_special_num = mc_list = Counter(running_special_list).most_common(1)[0]
+		running_list = list()
+		most_common_list = list()
+
 	if (gambleCount % log_every_n) == 0:
 		print_gamble_stats(winCount, gambleCount, winnings)
 		
