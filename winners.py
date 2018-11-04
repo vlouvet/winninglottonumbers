@@ -1,7 +1,7 @@
 import csv, random, math
 
 #unused if counter function isn't used
-from collections import Counter
+#from collections import Counter
 	
 millnames = ['',' Thousand',' Million',' Billion',' Trillion']	
 winningPercent = 0
