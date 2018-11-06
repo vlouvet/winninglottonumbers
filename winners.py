@@ -51,10 +51,8 @@ def print_gamble_stats(winCount, gambleCount, winnings):
 	print("\n\n")
 
 def millify(n):
-    n = float(n)
     millidx = max(0,min(len(millnames)-1,
                         int(math.floor(0 if n == 0 else math.log10(abs(n))/3))))
-
     return '{:.0f}{}'.format(n / 10**(3 * millidx), millnames[millidx])	
 
 #uncomment the following line to read the winning numbers from CSV	
@@ -114,6 +112,7 @@ while winnings > 0.00:
 			print_gamble_stats(winCount, gambleCount, winnings)
 			exit()
 		winCount += 1
+		
 	#simple correction process. looks at the last 100,000 winning numbers, and changes chosen_nums to that list of numbers.
 	# also resets the chosen_special_num based on which number was most commonly found in the past 100,00 iterations
 	if len(running_list) > 100_000:
@@ -121,7 +120,7 @@ while winnings > 0.00:
 		for item in mc_list:
 			most_common_list.append(item[0])
 		chosen_nums = most_common_list
-		chosen_special_num = mc_list = Counter(running_special_list).most_common(1)[0]
+		chosen_special_num = Counter(running_special_list).most_common(1)[0]
 		running_list = list()
 		most_common_list = list()
 
